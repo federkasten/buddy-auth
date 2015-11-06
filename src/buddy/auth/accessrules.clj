@@ -226,7 +226,9 @@
                   (:pattern accessrule)
                   (fn [request]
                     (let [pattern (:pattern accessrule)
-                          uri (:uri request)]
+                          uri (or (:path-info request)
+                                  (:uri request))]
+                      ;; (println "Check to match with: " uri)
                       (when (and (matches-request-method request request-method)
                                  (seq (re-matches pattern uri)))
                         {})))
